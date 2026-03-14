@@ -1,0 +1,87 @@
+<div class="page-header">
+    <div class="container">
+        <h1>About ElectroServe</h1>
+        <p>Connecting customers with trusted electricians since 2020</p>
+    </div>
+</div>
+
+<!-- Mission -->
+<section class="section">
+    <div class="container">
+        <div class="about-intro">
+            <div class="intro-text">
+                <span class="section-tag">Our Mission</span>
+                <h2>Making Electrical Services Accessible & Reliable</h2>
+                <p>ElectroServe was founded with a simple mission — to bridge the gap between customers who need quality
+                    electrical work and skilled electricians who deserve a platform to showcase their expertise.</p>
+                <p>We believe everyone deserves access to safe, reliable, and affordable electrical services. Whether
+                    you need a quick repair, a complete house rewiring, or help with your EB connection, ElectroServe
+                    makes it easy to find the right professional.</p>
+            </div>
+            <div class="intro-stats">
+                @for (stat of stats; track stat.label) {
+                <div class="stat-box">
+                    <strong>{{ stat.value }}</strong>
+                    <span>{{ stat.label }}</span>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values -->
+<section class="section values-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Our Values</span>
+            <h2>Why Choose ElectroServe?</h2>
+        </div>
+        <div class="values-grid">
+            @for (value of values; track value.title) {
+            <div class="value-card">
+                <div class="value-icon">
+                    <span class="material-icons-round">{{ value.icon }}</span>
+                </div>
+                <h4>{{ value.title }}</h4>
+                <p>{{ value.description }}</p>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Team -->
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Our Team</span>
+            <h2>Meet the People Behind ElectroServe</h2>
+        </div>
+        <div class="team-grid">
+            @for (member of team; track member.name) {
+            <div class="team-card">
+                <div class="team-avatar">
+                    <span class="material-icons-round">{{ member.icon }}</span>
+                </div>
+                <h4>{{ member.name }}</h4>
+                <span class="team-role">{{ member.role }}</span>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+    <div class="container" style="text-align:center;">
+        <h2>Ready to Get Started?</h2>
+        <p style="color:rgba(255,255,255,0.7);max-width:500px;margin:0 auto 28px;">Join thousands of satisfied customers
+            and skilled electricians on ElectroServe.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+            <a routerLink="/find-electricians" class="btn btn-amber btn-lg">Find an Electrician</a>
+            <a routerLink="/electrician-register" class="btn btn-secondary btn-lg"
+                style="border-color:rgba(255,255,255,0.3);color:white;">Join as Electrician</a>
+        </div>
+    </div>
+</section>

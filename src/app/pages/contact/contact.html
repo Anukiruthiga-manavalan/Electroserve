@@ -1,0 +1,73 @@
+<div class="page-header">
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>Have questions? We're here to help. Reach out anytime.</p>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Form -->
+            <div class="contact-form-card">
+                @if (!submitted) {
+                <h3>Send Us a Message</h3>
+                <form (ngSubmit)="onSubmit()">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" class="form-control" placeholder="Full name" [(ngModel)]="name"
+                                name="name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" class="form-control" placeholder="you&#64;email.com" [(ngModel)]="email"
+                                name="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" class="form-control" placeholder="How can we help?" [(ngModel)]="subject"
+                            name="subject">
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea class="form-control" rows="5" placeholder="Tell us more..." [(ngModel)]="message"
+                            name="message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+                        <span class="material-icons-round">send</span> Send Message
+                    </button>
+                </form>
+                } @else {
+                <div class="form-success">
+                    <span class="material-icons-round">check_circle</span>
+                    <h3>Message Sent!</h3>
+                    <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
+                </div>
+                }
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info-col">
+                @for (method of contactMethods; track method.title) {
+                <div class="contact-method">
+                    <div class="method-icon">
+                        <span class="material-icons-round">{{ method.icon }}</span>
+                    </div>
+                    <div>
+                        <h4>{{ method.title }}</h4>
+                        <p>{{ method.detail }}</p>
+                    </div>
+                </div>
+                }
+
+                <!-- Map Placeholder -->
+                <div class="map-placeholder">
+                    <span class="material-icons-round">map</span>
+                    <p>Map View</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

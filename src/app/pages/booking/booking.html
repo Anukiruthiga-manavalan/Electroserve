@@ -1,0 +1,184 @@
+<div class="page-header">
+    <div class="container">
+        <h1>Book an Electrician</h1>
+        <p>Complete the steps below to schedule your appointment</p>
+    </div>
+</div>
+
+<div class="booking-content container">
+    @if (!submitted()) {
+    <!-- Progress Steps -->
+    <div class="progress-bar">
+        @for (s of ['Service', 'Schedule', 'Details', 'Confirm']; track s; let i = $index) {
+        <div class="progress-step" [class.active]="step() >= i + 1" [class.current]="step() === i + 1">
+            <div class="step-circle">{{ i + 1 }}</div>
+            <span>{{ s }}</span>
+        </div>
+        }
+    </div>
+
+    <div class="booking-layout">
+        <div class="booking-form">
+            <!-- Step 1: Service -->
+            @if (step() === 1) {
+            <div class="form-step animate-fadeIn">
+                <h2>What service do you need?</h2>
+                <div class="form-group">
+                    <label>Service Type</label>
+                    <select class="form-control" [(ngModel)]="serviceType">
+                        <option value="">Select a service</option>
+                        <option value="House Wiring">House Wiring</option>
+                        <option value="Repairs & Fixes">Repairs & Fixes</option>
+                        <option value="EB Services">EB Services</option>
+                        <option value="Fan & Light Installation">Fan & Light Installation</option>
+                        <option value="AC Installation">AC Installation</option>
+                        <option value="Solar & Inverter">Solar & Inverter</option>
+                        <option value="Smart Home">Smart Home</option>
+                        <option value="Emergency">Emergency Service</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Describe the issue</label>
+                    <textarea class="form-control" rows="4"
+                        placeholder="Tell us about the electrical issue or work needed..."
+                        [(ngModel)]="issueDescription"></textarea>
+                </div>
+                <div class="form-actions">
+                    <span></span>
+                    <button class="btn btn-primary" (click)="nextStep()" [disabled]="!serviceType">Next Step →</button>
+                </div>
+            </div>
+            }
+
+            <!-- Step 2: Schedule -->
+            @if (step() === 2) {
+            <div class="form-step animate-fadeIn">
+                <h2>Pick a date & time</h2>
+                <div class="form-group">
+                    <label>Select Date</label>
+                    <input type="date" class="form-control" [min]="getMinDate()" [(ngModel)]="selectedDate">
+                </div>
+                <div class="form-group">
+                    <label>Select Time Slot</label>
+                    <div class="time-grid">
+                        @for (time of timeSlots; track time) {
+                        <button class="time-slot" [class.active]="selectedTime === time" (click)="selectTime(time)">
+                            {{ time }}
+                        </button>
+                        }
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" (click)="prevStep()">← Back</button>
+                    <button class="btn btn-primary" (click)="nextStep()"
+                        [disabled]="!selectedDate || !selectedTime">Next Step →</button>
+                </div>
+            </div>
+            }
+
+            <!-- Step 3: Details -->
+            @if (step() === 3) {
+            <div class="form-step animate-fadeIn">
+                <h2>Your details</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="customerName">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" class="form-control" placeholder="+91 98765 43210" [(ngModel)]="phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea class="form-control" rows="2" placeholder="Your full address"
+                        [(ngModel)]="address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" class="form-control" placeholder="City" [(ngModel)]="city">
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" (click)="prevStep()">← Back</button>
+                    <button class="btn btn-primary" (click)="nextStep()"
+                        [disabled]="!customerName || !phone || !address">Next Step →</button>
+                </div>
+            </div>
+            }
+
+            <!-- Step 4: Confirm -->
+            @if (step() === 4) {
+            <div class="form-step animate-fadeIn">
+                <h2>Review & Confirm</h2>
+                <div class="review-summary">
+                    <div class="review-item">
+                        <label>Service</label>
+                        <span>{{ serviceType }}</span>
+                    </div>
+                    <div class="review-item">
+                        <label>Issue</label>
+                        <span>{{ issueDescription || 'Not specified' }}</span>
+                    </div>
+                    <div class="review-item">
+                        <label>Date</label>
+                        <span>{{ selectedDate }}</span>
+                    </div>
+                    <div class="review-item">
+                        <label>Time</label>
+                        <span>{{ selectedTime }}</span>
+                    </div>
+                    <div class="review-item">
+                        <label>Name</label>
+                        <span>{{ customerName }}</span>
+                    </div>
+                    <div class="review-item">
+                        <label>Phone</label>
+                        <span>{{ phone }}</span>
+                    </div>
+                    <div class="review-item">
+                        <label>Address</label>
+                        <span>{{ address }}, {{ city }}</span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" (click)="prevStep()">← Back</button>
+                    <button class="btn btn-primary btn-lg" (click)="submitBooking()">
+                        <span class="material-icons-round">check_circle</span> Confirm Booking
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Sidebar -->
+        @if (electrician(); as elec) {
+        <aside class="booking-sidebar">
+            <div class="sidebar-card">
+                <h4>Booking With</h4>
+                <div class="booked-elec">
+                    <div class="booked-avatar">{{ getInitials(elec.name) }}</div>
+                    <div>
+                        <strong>{{ elec.name }}</strong>
+                        <span>₹{{ elec.hourlyRate }}/hr</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        }
+    </div>
+    } @else {
+    <!-- Success -->
+    <div class="success-card animate-scaleIn">
+        <div class="success-icon">
+            <span class="material-icons-round">check_circle</span>
+        </div>
+        <h2>Booking Confirmed! 🎉</h2>
+        <p>Your appointment has been successfully scheduled. The electrician will contact you shortly to confirm.</p>
+        <div class="success-actions">
+            <a routerLink="/" class="btn btn-primary">Back to Home</a>
+            <a routerLink="/find-electricians" class="btn btn-secondary">Find More Electricians</a>
+        </div>
+    </div>
+    }
+</div>

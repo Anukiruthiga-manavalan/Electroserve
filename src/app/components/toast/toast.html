@@ -1,0 +1,17 @@
+<div class="toast-container">
+    @for (toast of toastService.toasts(); track toast.id) {
+        <div class="toast animate-toast" [class]="toast.type">
+            <div class="toast-icon">
+                @switch (toast.type) {
+                    @case ('success') { <span class="material-icons-round">check_circle</span> }
+                    @case ('error') { <span class="material-icons-round">error</span> }
+                    @default { <span class="material-icons-round">info</span> }
+                }
+            </div>
+            <div class="toast-message">{{ toast.message }}</div>
+            <button class="toast-close" (click)="toastService.remove(toast.id)">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+    }
+</div>

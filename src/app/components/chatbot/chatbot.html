@@ -1,0 +1,51 @@
+<div class="chatbot-wrapper" [class.open]="isOpen()">
+    <!-- Chat Toggle Button -->
+    <button class="chat-toggle" (click)="toggleChat()" [class.hidden]="isOpen()">
+        <span class="material-icons-round">chat</span>
+        <div class="notification-dot"></div>
+    </button>
+
+    <!-- Chat Window -->
+    <div class="chat-window">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-info">
+                <span class="material-icons-round">smart_toy</span>
+                <div>
+                    <h4>ElectroBot</h4>
+                    <span class="status">● Online</span>
+                </div>
+            </div>
+            <button class="close-btn" (click)="toggleChat()">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="chat-body" #chatBody>
+            @for (msg of messages(); track $index) {
+                <div class="message" [class.user]="msg.isUser" [class.bot]="!msg.isUser">
+                    <div class="message-content">
+                        <p>{{ msg.text }}</p>
+                    </div>
+                </div>
+            }
+
+            @if (isTyping()) {
+                <div class="message bot typing">
+                    <div class="typing-indicator">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Footer -->
+        <div class="chat-footer">
+            <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Type a message..." />
+            <button class="send-btn" (click)="sendMessage()" [disabled]="!userInput.trim() || isTyping()">
+                <span class="material-icons-round">send</span>
+            </button>
+        </div>
+    </div>
+</div>

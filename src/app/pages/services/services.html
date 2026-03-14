@@ -1,0 +1,43 @@
+<div class="page-header">
+    <div class="container">
+        <h1>Our Services</h1>
+        <p>Professional electrical services for homes, businesses, and industries</p>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="services-grid">
+            @for (service of services(); track service.id) {
+            <div class="service-card-lg">
+                <div class="service-icon-lg">
+                    <span class="material-icons-round">{{ service.icon }}</span>
+                </div>
+                <div class="service-content">
+                    <h3>{{ service.name }}</h3>
+                    <p>{{ service.description }}</p>
+                    <div class="service-footer">
+                        <span class="service-price">Starting from {{ service.startingPrice }}</span>
+                        <a routerLink="/find-electricians" class="btn btn-primary btn-sm">Find Electricians →</a>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-card">
+            <span class="material-icons-round">support_agent</span>
+            <h2>Can't find what you need?</h2>
+            <p>Contact us and we'll connect you with the right electrician for any electrical work.</p>
+            <div class="cta-btns">
+                <a routerLink="/contact" class="btn btn-primary btn-lg">Contact Us</a>
+                <a routerLink="/find-electricians" class="btn btn-secondary btn-lg">Browse All Electricians</a>
+            </div>
+        </div>
+    </div>
+</section>
