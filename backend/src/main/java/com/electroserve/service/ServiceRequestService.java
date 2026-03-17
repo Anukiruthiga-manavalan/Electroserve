@@ -26,7 +26,7 @@ public class ServiceRequestService {
 
     public ServiceRequest createRequest(String customerEmail, ServiceRequestDto dto) {
         Customer customer = customerRepository.findByEmail(customerEmail)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new RuntimeException("Booking failed: Authenticated user (email: " + customerEmail + ") is not registered as a customer."));
 
         ServiceRequest request = ServiceRequest.builder()
                 .customer(customer)
@@ -41,7 +41,7 @@ public class ServiceRequestService {
 
         if (dto.getElectricianId() != null) {
             Electrician electrician = electricianRepository.findById(dto.getElectricianId())
-                    .orElseThrow(() -> new RuntimeException("Electrician not found"));
+                    .orElseThrow(() -> new RuntimeException("Booking failed: Selected electrician (ID: " + dto.getElectricianId() + ") not found."));
             request.setElectrician(electrician);
             request.setServiceStatus("Assigned");
         }

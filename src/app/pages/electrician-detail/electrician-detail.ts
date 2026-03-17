@@ -19,7 +19,13 @@ export class ElectricianDetail implements OnInit {
     ngOnInit() {
         const id = Number(this.route.snapshot.paramMap.get('id'));
         this.electricianService.getElectricianById(id).subscribe({
-            next: elec => this.electrician.set(elec),
+            next: elec => {
+                if (elec && typeof elec.certifications === 'string') {
+                    // @ts-ignore - transforming for template usage
+                    elec.certifications = elec.certifications ? elec.certifications.split(',').map(s => s.trim()) : [];
+                }
+                this.electrician.set(elec);
+            },
             error: err => console.error(err)
         });
     }

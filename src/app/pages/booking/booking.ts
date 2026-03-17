@@ -2,6 +2,7 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BookingService } from '../../services/booking.service';
+import { AuthService } from '../../services/auth.service';
 import { ElectricianService } from '../../services/electrician.service';
 import { ToastService } from '../../services/toast.service';
 import { Electrician } from '../../models/interfaces';
@@ -18,6 +19,7 @@ export class BookingPage implements OnInit {
     private router = inject(Router);
     private bookingService = inject(BookingService);
     private electricianService = inject(ElectricianService);
+    authService = inject(AuthService);
     private toastService = inject(ToastService);
 
     electrician = signal<Electrician | null>(null);
@@ -36,6 +38,11 @@ export class BookingPage implements OnInit {
     customerName = '';
 
     ngOnInit() {
+        if (!this.authService.isLoggedIn()) {
+            this.toastService.show('Please log in to book an electrician.', 'info');
+            this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+            return;
+        }
         this.bookingService.resetBooking();
         const id = Number(this.route.snapshot.paramMap.get('id'));
         this.electricianService.getElectricianById(id).subscribe({
@@ -78,7 +85,7 @@ export class BookingPage implements OnInit {
 
         this.bookingService.submitBooking(bookingData).subscribe({
             next: () => {
-                this.toastService.show('Booking successfully confirmed!', 'success');
+                this.toastService.show('Booking confirmed successfully!', 'success');
                 this.submitted.set(true);
             },
             error: err => {
