@@ -1,0 +1,162 @@
+<div class="page-header diagnosis-header">
+    <div class="container">
+        <h1><span class="material-icons-round">biotech</span> AI Fault Diagnosis</h1>
+        <p>Describe your symptoms and our AI will diagnose the issue and recommend the right service</p>
+    </div>
+</div>
+
+<section class="section diagnosis-section">
+    <div class="container">
+
+        <!-- Step 1: Choose Category -->
+        @if (!selectedCategory()) {
+        <div class="category-selector animate-fadeIn">
+            <h2>What type of problem are you experiencing?</h2>
+            <div class="category-options">
+                <button class="diag-category-card" (click)="selectCategory('electrical')">
+                    <div class="diag-icon electrical-icon">
+                        <span class="material-icons-round">electric_bolt</span>
+                    </div>
+                    <h3>Electrical Issue</h3>
+                    <p>Power problems, flickering lights, shocks, tripping breakers, etc.</p>
+                </button>
+                <button class="diag-category-card" (click)="selectCategory('plumbing')">
+                    <div class="diag-icon plumbing-icon">
+                        <span class="material-icons-round">plumbing</span>
+                    </div>
+                    <h3>Plumbing Issue</h3>
+                    <p>Leaks, blocked drains, low pressure, no hot water, etc.</p>
+                </button>
+            </div>
+        </div>
+        }
+
+        <!-- Step 2: Select Symptoms -->
+        @if (selectedCategory() && !diagnosisResult() && !isAnalyzing()) {
+        <div class="symptoms-panel animate-fadeIn">
+            <div class="symptoms-header">
+                <button class="back-btn" (click)="reset()">
+                    <span class="material-icons-round">arrow_back</span> Back
+                </button>
+                <h2>Select the symptoms you're experiencing</h2>
+                <p>Choose all that apply for a more accurate diagnosis</p>
+            </div>
+
+            <div class="symptoms-grid">
+                @for (symptom of currentSymptoms; track symptom.id) {
+                <button class="symptom-chip" [class.active]="isSelected(symptom.id)" (click)="toggleSymptom(symptom.id)">
+                    <span class="material-icons-round">{{ symptom.icon }}</span>
+                    <span>{{ symptom.label }}</span>
+                    @if (isSelected(symptom.id)) {
+                    <span class="material-icons-round check">check_circle</span>
+                    }
+                </button>
+                }
+            </div>
+
+            <div class="additional-info">
+                <label>Additional details (optional)</label>
+                <textarea class="form-control" rows="3"
+                    placeholder="Describe the issue in your own words..."
+                    [(ngModel)]="additionalInfo"></textarea>
+            </div>
+
+            <div class="diagnosis-actions">
+                <button class="btn btn-primary btn-lg" (click)="runDiagnosis()"
+                    [disabled]="selectedSymptoms().length === 0">
+                    <span class="material-icons-round">biotech</span>
+                    Run AI Diagnosis ({{ selectedSymptoms().length }} symptoms selected)
+                </button>
+            </div>
+        </div>
+        }
+
+        <!-- Analyzing Animation -->
+        @if (isAnalyzing()) {
+        <div class="analyzing animate-fadeIn">
+            <div class="analyzing-spinner">
+                <span class="material-icons-round spin">psychology</span>
+            </div>
+            <h2>Analyzing Symptoms...</h2>
+            <p>Our AI is processing your inputs to diagnose the issue</p>
+            <div class="progress-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        }
+
+        <!-- Step 3: Results -->
+        @if (diagnosisResult(); as result) {
+        <div class="results-panel animate-fadeIn">
+            <div class="results-header">
+                <h2><span class="material-icons-round">assignment_turned_in</span> Diagnosis Report</h2>
+                <span class="severity-badge" [class]="getSeverityClass(result.severity)">
+                    {{ result.severity | uppercase }} SEVERITY
+                </span>
+            </div>
+
+            <div class="results-grid">
+                <!-- Main Diagnosis -->
+                <div class="result-card main-result">
+                    <h3>{{ result.fault }}</h3>
+                    <p>{{ result.description }}</p>
+
+                    @if (result.safetyWarning) {
+                    <div class="safety-warning">
+                        <span class="material-icons-round">warning</span>
+                        <p>{{ result.safetyWarning }}</p>
+                    </div>
+                    }
+                </div>
+
+                <!-- Details Cards -->
+                <div class="detail-cards">
+                    <div class="detail-card">
+                        <span class="material-icons-round">build</span>
+                        <label>Suggested Service</label>
+                        <strong>{{ result.suggestedService }}</strong>
+                    </div>
+                    <div class="detail-card">
+                        <span class="material-icons-round">currency_rupee</span>
+                        <label>Estimated Cost</label>
+                        <strong>{{ result.estimatedCost }}</strong>
+                    </div>
+                    <div class="detail-card">
+                        <span class="material-icons-round">schedule</span>
+                        <label>Urgency</label>
+                        <strong>{{ result.urgency }}</strong>
+                    </div>
+                    <div class="detail-card">
+                        <span class="material-icons-round">person</span>
+                        <label>Professional Needed</label>
+                        <strong>{{ result.providerType === 'electrician' ? 'Electrician' : 'Plumber' }}</strong>
+                    </div>
+                </div>
+
+                <!-- DIY Tips -->
+                <div class="diy-section">
+                    <h4><span class="material-icons-round">tips_and_updates</span> What You Can Do Right Now</h4>
+                    <ul>
+                        @for (tip of result.diyTips; track tip) {
+                        <li><span class="material-icons-round">check</span> {{ tip }}</li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- CTA -->
+                <div class="results-cta">
+                    <a [routerLink]="result.providerType === 'electrician' ? '/find-electricians' : '/find-plumbers'"
+                        class="btn btn-primary btn-lg">
+                        <span class="material-icons-round">search</span>
+                        Find {{ result.providerType === 'electrician' ? 'Electricians' : 'Plumbers' }} Near You
+                    </a>
+                    <button class="btn btn-secondary btn-lg" (click)="reset()">
+                        <span class="material-icons-round">refresh</span>
+                        Start New Diagnosis
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</section>

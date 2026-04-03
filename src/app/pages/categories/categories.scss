@@ -1,0 +1,160 @@
+.page-header {
+    background: linear-gradient(135deg, var(--primary-900), var(--primary-700));
+    padding: 120px 0 50px;
+    text-align: center;
+
+    h1 {
+        color: var(--white, #fff);
+        margin-bottom: 8px;
+    }
+
+    p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1.05rem;
+    }
+}
+
+.categories-section {
+    padding: 3rem 0 5rem;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--card-bg, #fff);
+    border-radius: 1.25rem;
+    padding: 2.5rem 2rem;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    border: 2px solid transparent;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: 1.25rem 1.25rem 0 0;
+    transition: height 0.35s;
+}
+
+.electrician-card::before {
+    background: linear-gradient(90deg, #f59e0b, #f97316);
+}
+
+.plumber-card::before {
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+.category-card:hover::before {
+    height: 6px;
+}
+
+.electrician-card:hover {
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.plumber-card:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.category-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.category-icon-wrapper .material-icons-round {
+    font-size: 42px;
+    color: #fff;
+}
+
+.electrician-icon {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+}
+
+.plumber-icon {
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+}
+
+.category-content h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.category-content p {
+    color: var(--text-muted, #6b7280);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+}
+
+.category-features {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.category-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #4b5563);
+}
+
+.electrician-card .category-features .material-icons-round {
+    color: #f59e0b;
+    font-size: 18px;
+}
+
+.plumber-card .category-features .material-icons-round {
+    color: #3b82f6;
+    font-size: 18px;
+}
+
+.category-cta {
+    margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .category-card {
+        padding: 2rem 1.5rem;
+    }
+}

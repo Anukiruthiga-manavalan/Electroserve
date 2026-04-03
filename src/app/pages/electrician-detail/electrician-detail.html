@@ -1,0 +1,155 @@
+@if (electrician(); as elec) {
+<!-- Profile Header -->
+<div class="profile-header">
+    <div class="container">
+        <div class="profile-top">
+            <div class="profile-avatar-lg">
+                <span>{{ getInitials(elec.name) }}</span>
+            </div>
+            <div class="profile-info">
+                <div class="profile-name-row">
+                    <h1>{{ elec.name }}</h1>
+                    <div class="header-badges">
+                    @if (elec.verified) {
+                    <span class="badge badge-blue"><span class="material-icons-round" style="font-size: 14px;">verified</span> Verified Professional</span>
+                    }
+                    <span class="badge" [class.badge-green]="elec.availabilityStatus === 'Available'">{{ elec.availabilityStatus === 'Available' ? 'Available Now' : elec.availabilityStatus }}</span>
+                </div>
+                </div>
+                <div class="profile-rating">
+                    <div class="stars">
+                        @for (star of getStars(elec.rating); track $index) {
+                        <span class="material-icons-round">star</span>
+                        }
+                    </div>
+                    <span>{{ elec.rating }} · {{ elec.reviewCount }} reviews</span>
+                </div>
+                <div class="profile-meta">
+                    <span><span class="material-icons-round">location_on</span> {{ elec.location }}</span>
+                    <span><span class="material-icons-round">work_history</span> {{ elec.experienceYears }} years
+                        experience</span>
+                    <span><span class="material-icons-round">currency_rupee</span> ₹{{ elec.hourlyRate }}/hour</span>
+                </div>
+            </div>
+            <div class="profile-cta">
+                <a [routerLink]="['/booking', elec.electricianId]" class="btn btn-primary btn-lg">
+                    <span class="material-icons-round">calendar_month</span> Book Now
+                </a>
+                <a href="tel:{{ elec.phone }}" class="btn btn-secondary">
+                    <span class="material-icons-round">call</span> Call
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-body container">
+    <div class="profile-grid">
+        <!-- Main Content -->
+        <div class="profile-main">
+            <!-- About -->
+            <section class="profile-section">
+                <h3><span class="material-icons-round">person</span> About</h3>
+                <p>{{ elec.bio }}</p>
+            <div class="detail-card">
+                <h3>About {{ elec.name }}</h3>
+                <p class="bio-text">{{ elec.bio }}</p>
+
+                <div class="specialties-section">
+                    <h4>Specialization</h4>
+                    @if (elec.specialization) {
+                    <div class="spec-tags">
+                        <span class="badge badge-blue">{{ elec.specialization }}</span>
+                    </div>
+                    }
+                </div>
+            </div></section>
+
+
+
+            <!-- Certifications -->
+            <section class="profile-section">
+                <h3><span class="material-icons-round">workspace_premium</span> Certifications</h3>
+                <ul class="cert-list">
+                    @for (cert of elec.certifications; track cert) {
+                    <li><span class="material-icons-round">check_circle</span> {{ cert }}</li>
+                    }
+                </ul>
+            </section>
+
+            <!-- Services -->
+            <section class="profile-section">
+                <h3><span class="material-icons-round">electrical_services</span> Services & Pricing</h3>
+                <div class="services-table">
+                    <p style="padding: 1rem">{{ elec.servicesOffered || 'Contact for specific services and pricing.' }}</p>
+                </div>
+            </section>
+
+            <!-- Reviews -->
+            <section class="profile-section">
+                <h3><span class="material-icons-round">rate_review</span> Reviews ({{ elec.reviewCount }})</h3>
+                <div class="reviews-list">
+                    @for (review of elec.reviews; track review.name) {
+                    <div class="review-card">
+                        <div class="review-top">
+                            <div class="review-author">
+                                <div class="review-avatar">{{ getInitials(review.name || 'Customer') }}</div>
+                                <div>
+                                    <strong>{{ review.name || 'Customer' }}</strong>
+                                    <span class="review-date">{{ review.reviewDate || review.date }}</span>
+                                </div>
+                            </div>
+                            <div class="stars">
+                                @for (s of getStars(review.rating); track $index) {
+                                <span class="material-icons-round">star</span>
+                                }
+                            </div>
+                        </div>
+                        <p>{{ review.comment }}</p>
+                    </div>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="profile-sidebar">
+            <div class="sidebar-card">
+                <h4>Contact Information</h4>
+                <ul class="contact-info">
+                    <li><span class="material-icons-round">phone</span> {{ elec.phone }}</li>
+                    <li><span class="material-icons-round">email</span> {{ elec.email }}</li>
+                    <li><span class="material-icons-round">location_on</span> {{ elec.location }}</li>
+                </ul>
+            </div>
+            <div class="sidebar-card">
+                <h4>Quick Stats</h4>
+                <div class="quick-stats">
+                    <div class="stat-item">
+                        <strong>{{ elec.experienceYears }}</strong>
+                        <span>Years Exp</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>{{ elec.reviewCount }}</strong>
+                        <span>Reviews</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>{{ elec.rating }}</strong>
+                        <span>Rating</span>
+                    </div>
+                </div>
+            </div>
+            <a [routerLink]="['/booking', elec.electricianId]" class="btn btn-primary" style="width:100%;">
+                <span class="material-icons-round">calendar_month</span> Book This Electrician
+            </a>
+        </aside>
+    </div>
+</div>
+} @else {
+<div class="not-found container section">
+    <span class="material-icons-round">person_off</span>
+    <h2>Electrician Not Found</h2>
+    <p>Sorry, we couldn't find the electrician you're looking for.</p>
+    <a routerLink="/find-electricians" class="btn btn-primary">Browse Electricians</a>
+</div>
+}

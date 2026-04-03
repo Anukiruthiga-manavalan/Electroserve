@@ -1,0 +1,237 @@
+<!-- ===== HERO SECTION ===== -->
+<section class="hero">
+    <div class="hero-bg">
+        <div class="hero-particle p1"></div>
+        <div class="hero-particle p2"></div>
+        <div class="hero-particle p3"></div>
+        <div class="hero-glow"></div>
+    </div>
+
+    <div class="hero-content container">
+        <span class="hero-tag animate-fadeInUp">⚡🚿 Trusted Electrical & Plumbing Services at Your Doorstep</span>
+        <h1 class="animate-fadeInUp animate-delay-1">Find & Book <span class="highlight">Skilled Professionals</span>
+            Near You</h1>
+        <p class="hero-subtitle animate-fadeInUp animate-delay-2">Connect with verified electricians and plumbers in
+            your area. From wiring to pipe repairs, get reliable help in just a few clicks.</p>
+
+        <div class="hero-search animate-fadeInUp animate-delay-3">
+            <div class="search-input-group">
+                <span class="material-icons-round">location_on</span>
+                <input type="text" placeholder="Enter your area or city..." [value]="searchLocation()"
+                    (input)="searchLocation.set($any($event.target).value)">
+            </div>
+            <div class="search-input-group">
+                <span class="material-icons-round">handyman</span>
+                <select [value]="searchService()" (change)="searchService.set($any($event.target).value)">
+                    <option value="">Select service type</option>
+                    <optgroup label="⚡ Electrical">
+                        <option value="wiring">House Wiring</option>
+                        <option value="repair">Repairs & Fixes</option>
+                        <option value="eb">EB Services</option>
+                        <option value="ac">AC Installation</option>
+                        <option value="solar">Solar & Inverter</option>
+                    </optgroup>
+                    <optgroup label="🚿 Plumbing">
+                        <option value="pipe-repair">Pipe Repair</option>
+                        <option value="leak">Leak Detection</option>
+                        <option value="bathroom">Bathroom Fitting</option>
+                        <option value="drainage">Drainage & Sewer</option>
+                        <option value="water-heater">Water Heater</option>
+                    </optgroup>
+                </select>
+            </div>
+            <a routerLink="/categories" class="btn btn-amber btn-lg search-btn">
+                <span class="material-icons-round">search</span>
+                Search
+            </a>
+        </div>
+
+        <div class="hero-stats animate-fadeInUp animate-delay-4">
+            @for (stat of stats; track stat.label) {
+            <div class="hero-stat">
+                <strong>{{ stat.value }}{{ stat.suffix }}</strong>
+                <span>{{ stat.label }}</span>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section how-it-works">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">How It Works</span>
+            <h2>Book a Professional in 3 Simple Steps</h2>
+            <p>Getting professional help has never been easier</p>
+        </div>
+
+        <div class="steps-grid">
+            @for (step of steps; track step.title; let i = $index) {
+            <div class="step-card">
+                <div class="step-number">{{ i + 1 }}</div>
+                <div class="step-icon">
+                    <span class="material-icons-round">{{ step.icon }}</span>
+                </div>
+                <h3>{{ step.title }}</h3>
+                <p>{{ step.description }}</p>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===== ELECTRICAL SERVICES ===== -->
+<section class="section services-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">⚡ Electrical</span>
+            <h2>Electrical Services We Cover</h2>
+            <p>From simple repairs to complex installations — we've got you covered</p>
+        </div>
+
+        <div class="services-grid">
+            @for (service of electricalServices(); track service.id) {
+            <a routerLink="/services" class="service-card">
+                <div class="service-icon">
+                    <span class="material-icons-round">{{ service.icon }}</span>
+                </div>
+                <h4>{{ service.name }}</h4>
+                <p>{{ service.description }}</p>
+                <span class="service-price">From {{ service.startingPrice }}</span>
+            </a>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===== PLUMBING SERVICES ===== -->
+<section class="section services-section plumbing-services">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">🚿 Plumbing</span>
+            <h2>Plumbing Services We Cover</h2>
+            <p>From pipe repairs to complete bathroom installations</p>
+        </div>
+
+        <div class="services-grid">
+            @for (service of plumbingServices(); track service.id) {
+            <a routerLink="/services" class="service-card plumbing-card">
+                <div class="service-icon plumbing-icon">
+                    <span class="material-icons-round">{{ service.icon }}</span>
+                </div>
+                <h4>{{ service.name }}</h4>
+                <p>{{ service.description }}</p>
+                <span class="service-price">From {{ service.startingPrice }}</span>
+            </a>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEATURED PROFESSIONALS ===== -->
+<section class="section featured-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Top Rated</span>
+            <h2>Featured Electricians</h2>
+            <p>Highly rated professionals ready to help you</p>
+        </div>
+
+        <div class="electricians-grid">
+            @for (elec of featuredElectricians(); track elec.electricianId) {
+            <a [routerLink]="['/electrician', elec.electricianId]" class="electrician-card">
+                <div class="elec-header">
+                    <div class="elec-avatar">
+                        <span>{{ getInitials(elec.name) }}</span>
+                    </div>
+                    @if (elec.verified) {
+                    <span class="verified-badge" title="Verified">
+                        <span class="material-icons-round">verified</span>
+                    </span>
+                    }
+                    @if (elec.availabilityStatus === 'Available') {
+                    <span class="availability-dot" title="Available Now"></span>
+                    }
+                </div>
+                <h4>{{ elec.name }}</h4>
+                <div class="elec-rating">
+                    <div class="stars">
+                        @for (star of getStars(elec.rating); track $index) {
+                        <span class="material-icons-round">star</span>
+                        }
+                    </div>
+                    <span class="rating-text">{{ elec.rating }} ({{ elec.reviewCount }})</span>
+                    @if (elec.specialization) {
+                    <div class="specialties">
+                        <span class="badge badge-blue">
+                            {{elec.specialization}}
+                        </span>
+                    </div>
+                    }
+                </div>
+                <div class="elec-meta">
+                    <span><span class="material-icons-round">location_on</span> {{ elec.distance }}</span>
+                    <span><span class="material-icons-round">currency_rupee</span> ₹{{ elec.hourlyRate }}/hr</span>
+                </div>
+                <div class="elec-actions">
+                    <span class="btn btn-primary btn-sm">Book Now</span>
+                </div>
+            </a>
+            }
+        </div>
+
+        <div class="section-cta">
+            <a routerLink="/categories" class="btn btn-secondary">View All Professionals →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section testimonials-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Testimonials</span>
+            <h2>What Our Customers Say</h2>
+            <p>Real reviews from real customers</p>
+        </div>
+
+        <div class="testimonials-grid">
+            @for (t of testimonials; track t.name) {
+            <div class="testimonial-card">
+                <div class="testimonial-stars stars">
+                    @for (star of getStars(t.rating); track $index) {
+                    <span class="material-icons-round">star</span>
+                    }
+                </div>
+                <p class="testimonial-text">"{{ t.comment }}"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">{{ getInitials(t.name) }}</div>
+                    <div>
+                        <strong>{{ t.name }}</strong>
+                        <span>{{ t.location }}</span>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA BANNER ===== -->
+<section class="cta-banner">
+    <div class="container">
+        <div class="cta-content">
+            <div class="cta-text">
+                <h2>Are You a Professional?</h2>
+                <p>Join ElectroServe and connect with thousands of customers looking for your skills. Grow your
+                    business, manage bookings, and get paid — all in one platform.</p>
+            </div>
+            <div class="cta-actions">
+                <a routerLink="/electrician-register" class="btn btn-amber btn-lg">Register Now — It's Free</a>
+                <a routerLink="/about" class="btn btn-secondary btn-lg"
+                    style="border-color: rgba(255,255,255,0.3); color: white;">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,153 @@
+@if (plumber(); as p) {
+<!-- Profile Header -->
+<div class="profile-header plumber-profile-header">
+    <div class="container">
+        <div class="profile-top">
+            <div class="profile-avatar-lg plumber-avatar-lg">
+                <span>{{ getInitials(p.name) }}</span>
+            </div>
+            <div class="profile-info">
+                <div class="profile-name-row">
+                    <h1>{{ p.name }}</h1>
+                    <div class="header-badges">
+                    @if (p.verified) {
+                    <span class="badge badge-blue"><span class="material-icons-round" style="font-size: 14px;">verified</span> Verified Professional</span>
+                    }
+                    <span class="badge" [class.badge-green]="p.availabilityStatus === 'Available'">{{ p.availabilityStatus === 'Available' ? 'Available Now' : p.availabilityStatus }}</span>
+                </div>
+                </div>
+                <div class="profile-rating">
+                    <div class="stars">
+                        @for (star of getStars(p.rating); track $index) {
+                        <span class="material-icons-round">star</span>
+                        }
+                    </div>
+                    <span>{{ p.rating }} · {{ p.reviewCount }} reviews</span>
+                </div>
+                <div class="profile-meta">
+                    <span><span class="material-icons-round">location_on</span> {{ p.location }}</span>
+                    <span><span class="material-icons-round">work_history</span> {{ p.experienceYears }} years
+                        experience</span>
+                    <span><span class="material-icons-round">currency_rupee</span> ₹{{ p.hourlyRate }}/hour</span>
+                </div>
+            </div>
+            <div class="profile-cta">
+                <a [routerLink]="['/booking/plumber', p.plumberId]" class="btn btn-primary btn-lg">
+                    <span class="material-icons-round">calendar_month</span> Book Now
+                </a>
+                <a href="tel:{{ p.phone }}" class="btn btn-secondary">
+                    <span class="material-icons-round">call</span> Call
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-body container">
+    <div class="profile-grid">
+        <!-- Main Content -->
+        <div class="profile-main">
+            <!-- About -->
+            <section class="profile-section">
+                <h3><span class="material-icons-round">person</span> About</h3>
+                <p>{{ p.bio }}</p>
+            <div class="detail-card">
+                <h3>About {{ p.name }}</h3>
+                <p class="bio-text">{{ p.bio }}</p>
+
+                <div class="specialties-section">
+                    <h4>Specialization</h4>
+                    @if (p.specialization) {
+                    <div class="spec-tags">
+                        <span class="badge badge-blue">{{ p.specialization }}</span>
+                    </div>
+                    }
+                </div>
+            </div></section>
+
+            <!-- Certifications -->
+            <section class="profile-section">
+                <h3><span class="material-icons-round">workspace_premium</span> Certifications</h3>
+                <ul class="cert-list">
+                    @for (cert of p.certifications; track cert) {
+                    <li><span class="material-icons-round">check_circle</span> {{ cert }}</li>
+                    }
+                </ul>
+            </section>
+
+            <!-- Services -->
+            <section class="profile-section">
+                <h3><span class="material-icons-round">plumbing</span> Services & Pricing</h3>
+                <div class="services-table">
+                    <p style="padding: 1rem">{{ p.servicesOffered || 'Contact for specific services and pricing.' }}</p>
+                </div>
+            </section>
+
+            <!-- Reviews -->
+            <section class="profile-section">
+                <h3><span class="material-icons-round">rate_review</span> Reviews ({{ p.reviewCount }})</h3>
+                <div class="reviews-list">
+                    @for (review of p.reviews; track review.name) {
+                    <div class="review-card">
+                        <div class="review-top">
+                            <div class="review-author">
+                                <div class="review-avatar">{{ getInitials(review.name || 'Customer') }}</div>
+                                <div>
+                                    <strong>{{ review.name || 'Customer' }}</strong>
+                                    <span class="review-date">{{ review.reviewDate || review.date }}</span>
+                                </div>
+                            </div>
+                            <div class="stars">
+                                @for (s of getStars(review.rating); track $index) {
+                                <span class="material-icons-round">star</span>
+                                }
+                            </div>
+                        </div>
+                        <p>{{ review.comment }}</p>
+                    </div>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="profile-sidebar">
+            <div class="sidebar-card">
+                <h4>Contact Information</h4>
+                <ul class="contact-info">
+                    <li><span class="material-icons-round">phone</span> {{ p.phone }}</li>
+                    <li><span class="material-icons-round">email</span> {{ p.email }}</li>
+                    <li><span class="material-icons-round">location_on</span> {{ p.location }}</li>
+                </ul>
+            </div>
+            <div class="sidebar-card">
+                <h4>Quick Stats</h4>
+                <div class="quick-stats">
+                    <div class="stat-item">
+                        <strong>{{ p.experienceYears }}</strong>
+                        <span>Years Exp</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>{{ p.reviewCount }}</strong>
+                        <span>Reviews</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>{{ p.rating }}</strong>
+                        <span>Rating</span>
+                    </div>
+                </div>
+            </div>
+            <a [routerLink]="['/booking/plumber', p.plumberId]" class="btn btn-primary" style="width:100%;">
+                <span class="material-icons-round">calendar_month</span> Book This Plumber
+            </a>
+        </aside>
+    </div>
+</div>
+} @else {
+<div class="not-found container section">
+    <span class="material-icons-round">person_off</span>
+    <h2>Plumber Not Found</h2>
+    <p>Sorry, we couldn't find the plumber you're looking for.</p>
+    <a routerLink="/find-plumbers" class="btn btn-primary">Browse Plumbers</a>
+</div>
+}

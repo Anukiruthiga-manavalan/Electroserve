@@ -1,0 +1,73 @@
+<div class="page-header">
+    <div class="container">
+        <h1>Our Services</h1>
+        <p>Professional electrical and plumbing services for homes, businesses, and industries</p>
+    </div>
+</div>
+
+<!-- Electrical Services -->
+<section class="section">
+    <div class="container">
+        <div class="section-header-inline">
+            <h2>⚡ Electrical Services</h2>
+        </div>
+        <div class="services-grid">
+            @for (service of electricalServices(); track service.id) {
+            <div class="service-card-lg">
+                <div class="service-icon-lg">
+                    <span class="material-icons-round">{{ service.icon }}</span>
+                </div>
+                <div class="service-content">
+                    <h3>{{ service.name }}</h3>
+                    <p>{{ service.description }}</p>
+                    <div class="service-footer">
+                        <span class="service-price">Starting from {{ service.startingPrice }}</span>
+                        <a routerLink="/find-electricians" class="btn btn-primary btn-sm">Find Electricians →</a>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Plumbing Services -->
+<section class="section plumbing-section">
+    <div class="container">
+        <div class="section-header-inline">
+            <h2>🚿 Plumbing Services</h2>
+        </div>
+        <div class="services-grid">
+            @for (service of plumbingServices(); track service.id) {
+            <div class="service-card-lg plumbing-card-lg">
+                <div class="service-icon-lg plumbing-icon-lg">
+                    <span class="material-icons-round">{{ service.icon }}</span>
+                </div>
+                <div class="service-content">
+                    <h3>{{ service.name }}</h3>
+                    <p>{{ service.description }}</p>
+                    <div class="service-footer">
+                        <span class="service-price">Starting from {{ service.startingPrice }}</span>
+                        <a routerLink="/find-plumbers" class="btn btn-primary btn-sm">Find Plumbers →</a>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-card">
+            <span class="material-icons-round">support_agent</span>
+            <h2>Can't find what you need?</h2>
+            <p>Contact us and we'll connect you with the right professional for any work.</p>
+            <div class="cta-btns">
+                <a routerLink="/contact" class="btn btn-primary btn-lg">Contact Us</a>
+                <a routerLink="/categories" class="btn btn-secondary btn-lg">Browse Categories</a>
+            </div>
+        </div>
+    </div>
+</section>

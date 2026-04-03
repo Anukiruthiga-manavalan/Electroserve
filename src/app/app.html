@@ -1,0 +1,13 @@
+@if (showLayout()) {
+  <app-navbar></app-navbar>
+}
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+@if (showLayout()) {
+  <app-footer></app-footer>
+  <app-chatbot></app-chatbot>
+}
+<app-toasts></app-toasts>

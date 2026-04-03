@@ -1,0 +1,71 @@
+<div class="chatbot-wrapper" [class.open]="isOpen()">
+    <!-- Chat Toggle Button -->
+    <button class="chat-toggle" (click)="toggleChat()">
+        <span class="material-icons-round">{{ isOpen() ? 'close' : 'chat' }}</span>
+        @if (!isOpen()) {
+        <div class="notification-dot"></div>
+        }
+    </button>
+
+    <!-- Chat Window -->
+    @if (isOpen()) {
+    <div class="chat-window">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-info">
+                <span class="material-icons-round">smart_toy</span>
+                <div>
+                    <h4>ServeBot <span class="ai-badge">AI</span></h4>
+                    <span class="status">● Online</span>
+                </div>
+            </div>
+            <button class="close-btn" (click)="toggleChat()">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="chat-body" #chatBody>
+            @for (msg of messages(); track $index) {
+            <div class="message" [class.user]="msg.isUser" [class.bot]="!msg.isUser">
+                <div class="message-content">
+                    <p>{{ msg.text }}</p>
+                </div>
+            </div>
+            }
+
+            @if (isTyping()) {
+            <div class="message bot typing">
+                <div class="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            }
+
+            <!-- Quick Replies (show only when first message) -->
+            @if (messages().length <= 1) {
+            <div class="quick-replies">
+                @for (reply of quickReplies; track reply) {
+                <button class="quick-reply-chip" (click)="sendQuickReply(reply)">{{ reply }}</button>
+                }
+            </div>
+            }
+        </div>
+
+        <!-- Footer -->
+        <div class="chat-footer">
+            @if (voiceSupported()) {
+            <button class="voice-btn" [class.listening]="isListening()" (click)="startVoice()"
+                [title]="isListening() ? 'Listening...' : 'Voice input'">
+                <span class="material-icons-round">{{ isListening() ? 'hearing' : 'mic' }}</span>
+            </button>
+            }
+            <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()"
+                [placeholder]="isListening() ? 'Listening...' : 'Type a message...'" />
+            <button class="send-btn" (click)="sendMessage()" [disabled]="!userInput.trim() || isTyping()">
+                <span class="material-icons-round">send</span>
+            </button>
+        </div>
+    </div>
+    }
+</div>

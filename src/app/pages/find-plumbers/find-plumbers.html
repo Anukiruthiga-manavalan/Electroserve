@@ -1,0 +1,133 @@
+<div class="page-header plumber-header">
+    <div class="container">
+        <h1>Find Plumbers</h1>
+        <p>Browse verified plumbers in your area. Filter by specialty, rating, and more.</p>
+    </div>
+</div>
+
+<div class="find-content container">
+    <div class="find-layout">
+        <!-- Sidebar Filters -->
+        <aside class="filter-sidebar">
+            <div class="filter-header">
+                <h3><span class="material-icons-round">tune</span> Filters</h3>
+                <button class="clear-btn" (click)="clearFilters()">Clear All</button>
+            </div>
+
+            <div class="filter-group">
+                <label>Search</label>
+                <div class="search-box">
+                    <span class="material-icons-round">search</span>
+                    <input type="text" placeholder="Name, location, or skill..." [(ngModel)]="searchQuery"
+                        (input)="search()">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Specialty</label>
+                <select class="form-control" [(ngModel)]="selectedSpecialty" (change)="search()">
+                    <option value="">All Specialties</option>
+                    @for (spec of specialties; track spec) {
+                    <option [value]="spec">{{ spec }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Minimum Rating</label>
+                <div class="rating-filter">
+                    @for (r of [0, 3, 3.5, 4, 4.5]; track r) {
+                    <button [class.active]="minRating === r" (click)="minRating = r; search()">
+                        {{ r === 0 ? 'Any' : r + '+'}}
+                    </button>
+                    }
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Max Hourly Rate: ₹{{ maxRate >= 1000 ? 'Any' : maxRate }}</label>
+                <input type="range" min="100" max="1000" step="50" [(ngModel)]="maxRate" (input)="search()">
+            </div>
+
+            <div class="filter-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" [(ngModel)]="availableOnly" (change)="search()">
+                    <span>Available Now Only</span>
+                </label>
+            </div>
+        </aside>
+
+        <!-- Results -->
+        <main class="results-section">
+            <div class="results-header">
+                <span class="results-count">{{ plumbers().length }} plumbers found</span>
+                <div class="sort-control">
+                    <label>Sort by:</label>
+                    <select [(ngModel)]="sortBy" (change)="search()">
+                        <option value="rating">Highest Rated</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="experience">Most Experienced</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="results-grid">
+                @for (plumber of plumbers(); track plumber.plumberId) {
+                <a [routerLink]="['/plumber', plumber.plumberId]" class="result-card">
+                    <div class="result-left">
+                        <div class="result-avatar plumber-avatar">
+                            <span>{{ getInitials(plumber.name) }}</span>
+                            @if (plumber.availabilityStatus === 'Available') {
+                            <span class="avail-dot"></span>
+                            }
+                        </div>
+                    </div>
+                    <div class="result-info">
+                        <div class="result-top">
+                            <h3>
+                                {{ plumber.name }}
+                                @if (plumber.verified) {
+                                <span class="material-icons-round verified">verified</span>
+                                }
+                            </h3>
+                            <span class="result-rate">₹{{ plumber.hourlyRate }}/hr</span>
+                        </div>
+                        <div class="result-rating">
+                            <div class="stars">
+                                @for (star of getStars(plumber.rating); track $index) {
+                                <span class="material-icons-round">star</span>
+                                }
+                            </div>
+                            <span>{{ plumber.rating }} ({{ plumber.reviewCount }} reviews)</span>
+                        </div>
+                        @if (plumber.specialization) {
+                        <div class="specialties">
+                            <span class="badge badge-blue">
+                                {{plumber.specialization}}
+                            </span>
+                        </div>
+                        }
+                        <div class="result-meta">
+                            <span><span class="material-icons-round">location_on</span> {{ plumber.location }} · {{
+                                plumber.distance }}</span>
+                            <span><span class="material-icons-round">work_history</span> {{ plumber.experienceYears }} yrs
+                                exp</span>
+                        </div>
+                    </div>
+                    <div class="result-action">
+                        <span class="btn btn-primary btn-sm">Book Now</span>
+                    </div>
+                </a>
+                } @empty {
+                <div class="no-results">
+                    <span class="material-icons-round">search_off</span>
+                    <h3>No plumbers found</h3>
+                    <p>Try adjusting your filters or search query</p>
+                    <button class="btn btn-secondary" (click)="clearFilters()">Clear Filters</button>
+                </div>
+                }
+            </div>
+        </main>
+    </div>
+</div>
