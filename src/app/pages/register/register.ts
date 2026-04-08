@@ -16,7 +16,7 @@ export class Register {
   email = '';
   phone = '';
   password = '';
-  role: 'customer' | 'electrician' = 'customer';
+  role: 'customer' | 'electrician' | 'plumber' = 'customer';
   isLoading = signal(false);
   errorMessage = signal('');
   

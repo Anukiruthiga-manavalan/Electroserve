@@ -14,9 +14,12 @@ import { ToastService } from '../../services/toast.service';
 export class Login {
   email = '';
   password = '';
-  role: 'customer' | 'electrician' = 'customer';
+  resetEmail = '';
+  role: 'customer' | 'electrician' | 'plumber' = 'customer';
   isLoading = signal(false);
   errorMessage = signal('');
+  showForgotModal = signal(false);
+  resetSent = signal(false);
   
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -41,5 +44,37 @@ export class Login {
         this.toast.show(errorMsg, 'error');
       }
     });
+  }
+
+  onForgotPassword(event: Event) {
+    event.preventDefault();
+    this.resetEmail = this.email || '';
+    this.resetSent.set(false);
+    this.showForgotModal.set(true);
+  }
+
+  closeForgotModal() {
+    this.showForgotModal.set(false);
+    this.resetSent.set(false);
+    this.resetEmail = '';
+  }
+
+  sendResetLink() {
+    if (!this.resetEmail) return;
+    // Simulate sending reset link - in production, call backend API
+    this.toast.show('Password reset link sent to ' + this.resetEmail, 'success');
+    this.resetSent.set(true);
+  }
+
+  signInWithGoogle() {
+    this.toast.show('Google Sign-In integration coming soon!', 'info');
+    // In production, integrate with Google OAuth2
+    // window.location.href = '/api/oauth2/authorize/google';
+  }
+
+  signInWithFacebook() {
+    this.toast.show('Facebook Sign-In integration coming soon!', 'info');
+    // In production, integrate with Facebook OAuth2
+    // window.location.href = '/api/oauth2/authorize/facebook';
   }
 }

@@ -13,7 +13,7 @@
             <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
             <li><a routerLink="/about" routerLinkActive="active">About</a></li>
             <li><a routerLink="/fault-diagnosis" routerLinkActive="active">AI Diagnosis</a></li>
-            <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+
         </ul>
 
         <!-- CTA Buttons -->
@@ -42,7 +42,7 @@
             <li><a routerLink="/services" (click)="closeMobileMenu()">Services</a></li>
             <li><a routerLink="/about" (click)="closeMobileMenu()">About</a></li>
             <li><a routerLink="/fault-diagnosis" (click)="closeMobileMenu()">AI Diagnosis</a></li>
-            <li><a routerLink="/contact" (click)="closeMobileMenu()">Contact</a></li>
+
             <li>
                 <div class="nav-right" [class.active]="mobileMenuOpen()">
                     @if (authService.currentUser()) {

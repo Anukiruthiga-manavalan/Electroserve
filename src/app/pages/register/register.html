@@ -6,7 +6,7 @@
                 <span>Electro<span class="accent">Serve</span></span>
             </a>
             <h1>Join ElectroServe</h1>
-            <p>Create an account to book skilled electricians or grow your electrical business</p>
+            <p>Create an account to book skilled professionals or grow your business</p>
         </div>
         <div class="auth-illustration">
             <span class="material-icons-round">how_to_reg</span>
@@ -21,6 +21,7 @@
             <div class="role-toggle">
                 <button [class.active]="role === 'customer'" (click)="role = 'customer'">Customer</button>
                 <button [class.active]="role === 'electrician'" (click)="role = 'electrician'">Electrician</button>
+                <button [class.active]="role === 'plumber'" (click)="role = 'plumber'">Plumber</button>
             </div>
 
             <form (ngSubmit)="onSubmit()">
@@ -67,6 +68,13 @@
             <p class="elec-note">
                 <span class="material-icons-round">info</span>
                 For a complete electrician profile, <a routerLink="/electrician-register">use the full registration
+                    form</a>.
+            </p>
+            }
+            @if (role === 'plumber') {
+            <p class="elec-note">
+                <span class="material-icons-round">info</span>
+                For a complete plumber profile, <a routerLink="/plumber-register">use the full registration
                     form</a>.
             </p>
             }

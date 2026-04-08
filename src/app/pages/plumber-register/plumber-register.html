@@ -1,0 +1,159 @@
+<div class="page-header plumber-header">
+    <div class="container">
+        <h1>Join ElectroServe as a Plumber</h1>
+        <p>Register your profile and start getting bookings from customers in your area</p>
+    </div>
+</div>
+
+<div class="reg-content container">
+    @if (!submitted()) {
+    <div class="progress-bar">
+        @for (s of ['Personal', 'Professional', 'Services', 'Review']; track s; let i = $index) {
+        <div class="progress-step" [class.active]="step() >= i + 1" [class.current]="step() === i + 1">
+            <div class="step-circle">{{ i + 1 }}</div>
+            <span>{{ s }}</span>
+        </div>
+        }
+    </div>
+
+    <div class="reg-form">
+        <!-- Step 1: Personal -->
+        @if (step() === 1) {
+        <div class="form-step animate-fadeIn">
+            <h2><span class="material-icons-round">person</span> Personal Information</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" placeholder="Your full name" [(ngModel)]="name">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" class="form-control" placeholder="+91 98765 43210" [(ngModel)]="phone">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" placeholder="you@email.com" [(ngModel)]="email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Create a password" [(ngModel)]="password">
+                </div>
+            </div>
+            <div class="form-actions">
+                <span></span>
+                <button class="btn btn-primary" (click)="nextStep()" [disabled]="!name || !phone || !email">Next Step
+                    →</button>
+            </div>
+        </div>
+        }
+
+        <!-- Step 2: Professional -->
+        @if (step() === 2) {
+        <div class="form-step animate-fadeIn">
+            <h2><span class="material-icons-round">workspace_premium</span> Professional Details</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Years of Experience</label>
+                    <input type="number" class="form-control" placeholder="e.g. 5" [(ngModel)]="experience">
+                </div>
+                <div class="form-group">
+                    <label>License Number (optional)</label>
+                    <input type="text" class="form-control" placeholder="Plumbing license no." [(ngModel)]="license">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Certifications</label>
+                <div class="chip-grid">
+                    @for (cert of certOptions; track cert) {
+                    <button class="chip" [class.active]="selectedCerts.includes(cert)" (click)="toggleCert(cert)">
+                        {{ cert }}
+                    </button>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label>About You</label>
+                <textarea class="form-control" rows="3"
+                    placeholder="Brief description of your plumbing experience and expertise..." [(ngModel)]="about"></textarea>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" (click)="prevStep()">← Back</button>
+                <button class="btn btn-primary" (click)="nextStep()">Next Step →</button>
+            </div>
+        </div>
+        }
+
+        <!-- Step 3: Services -->
+        @if (step() === 3) {
+        <div class="form-step animate-fadeIn">
+            <h2><span class="material-icons-round">plumbing</span> Services & Area</h2>
+            <div class="form-group">
+                <label>Services You Offer</label>
+                <div class="chip-grid">
+                    @for (svc of serviceOptions; track svc) {
+                    <button class="chip" [class.active]="selectedServices.includes(svc)" (click)="toggleService(svc)">
+                        {{ svc }}
+                    </button>
+                    }
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Hourly Rate (₹)</label>
+                    <input type="number" class="form-control" placeholder="e.g. 350" [(ngModel)]="hourlyRate">
+                </div>
+                <div class="form-group">
+                    <label>Service Radius (km)</label>
+                    <input type="number" class="form-control" placeholder="e.g. 10" [(ngModel)]="serviceRadius">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Location / Area</label>
+                <input type="text" class="form-control" placeholder="Your area, e.g. Anna Nagar, Chennai"
+                    [(ngModel)]="location">
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" (click)="prevStep()">← Back</button>
+                <button class="btn btn-primary" (click)="nextStep()">Review →</button>
+            </div>
+        </div>
+        }
+
+        <!-- Step 4: Review -->
+        @if (step() === 4) {
+        <div class="form-step animate-fadeIn">
+            <h2><span class="material-icons-round">fact_check</span> Review & Submit</h2>
+            <div class="review-summary">
+                <div class="review-item"><label>Name</label><span>{{ name }}</span></div>
+                <div class="review-item"><label>Phone</label><span>{{ phone }}</span></div>
+                <div class="review-item"><label>Email</label><span>{{ email }}</span></div>
+                <div class="review-item"><label>Experience</label><span>{{ experience }} years</span></div>
+                <div class="review-item"><label>Certifications</label><span>{{ selectedCerts.join(', ') || 'None'
+                        }}</span></div>
+                <div class="review-item"><label>Services</label><span>{{ selectedServices.join(', ') || 'None' }}</span>
+                </div>
+                <div class="review-item"><label>Rate</label><span>₹{{ hourlyRate }}/hr</span></div>
+                <div class="review-item"><label>Location</label><span>{{ location }}</span></div>
+                <div class="review-item"><label>Service Radius</label><span>{{ serviceRadius }} km</span></div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" (click)="prevStep()">← Back</button>
+                <button class="btn btn-primary btn-lg" (click)="submit()">
+                    <span class="material-icons-round">check_circle</span> Submit Registration
+                </button>
+            </div>
+        </div>
+        }
+    </div>
+    } @else {
+    <div class="success-card animate-scaleIn">
+        <div class="success-icon"><span class="material-icons-round">celebration</span></div>
+        <h2>Registration Submitted! 🎉</h2>
+        <p>Thank you for registering with ElectroServe as a plumber. Our team will review your profile and get back to you within 24
+            hours.</p>
+        <a routerLink="/" class="btn btn-primary">Back to Home</a>
+    </div>
+    }
+</div>

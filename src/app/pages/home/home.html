@@ -129,63 +129,6 @@
     </div>
 </section>
 
-<!-- ===== FEATURED PROFESSIONALS ===== -->
-<section class="section featured-section">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-tag">Top Rated</span>
-            <h2>Featured Electricians</h2>
-            <p>Highly rated professionals ready to help you</p>
-        </div>
-
-        <div class="electricians-grid">
-            @for (elec of featuredElectricians(); track elec.electricianId) {
-            <a [routerLink]="['/electrician', elec.electricianId]" class="electrician-card">
-                <div class="elec-header">
-                    <div class="elec-avatar">
-                        <span>{{ getInitials(elec.name) }}</span>
-                    </div>
-                    @if (elec.verified) {
-                    <span class="verified-badge" title="Verified">
-                        <span class="material-icons-round">verified</span>
-                    </span>
-                    }
-                    @if (elec.availabilityStatus === 'Available') {
-                    <span class="availability-dot" title="Available Now"></span>
-                    }
-                </div>
-                <h4>{{ elec.name }}</h4>
-                <div class="elec-rating">
-                    <div class="stars">
-                        @for (star of getStars(elec.rating); track $index) {
-                        <span class="material-icons-round">star</span>
-                        }
-                    </div>
-                    <span class="rating-text">{{ elec.rating }} ({{ elec.reviewCount }})</span>
-                    @if (elec.specialization) {
-                    <div class="specialties">
-                        <span class="badge badge-blue">
-                            {{elec.specialization}}
-                        </span>
-                    </div>
-                    }
-                </div>
-                <div class="elec-meta">
-                    <span><span class="material-icons-round">location_on</span> {{ elec.distance }}</span>
-                    <span><span class="material-icons-round">currency_rupee</span> ₹{{ elec.hourlyRate }}/hr</span>
-                </div>
-                <div class="elec-actions">
-                    <span class="btn btn-primary btn-sm">Book Now</span>
-                </div>
-            </a>
-            }
-        </div>
-
-        <div class="section-cta">
-            <a routerLink="/categories" class="btn btn-secondary">View All Professionals →</a>
-        </div>
-    </div>
-</section>
 
 <!-- ===== TESTIMONIALS ===== -->
 <section class="section testimonials-section">
@@ -214,24 +157,6 @@
                 </div>
             </div>
             }
-        </div>
-    </div>
-</section>
-
-<!-- ===== CTA BANNER ===== -->
-<section class="cta-banner">
-    <div class="container">
-        <div class="cta-content">
-            <div class="cta-text">
-                <h2>Are You a Professional?</h2>
-                <p>Join ElectroServe and connect with thousands of customers looking for your skills. Grow your
-                    business, manage bookings, and get paid — all in one platform.</p>
-            </div>
-            <div class="cta-actions">
-                <a routerLink="/electrician-register" class="btn btn-amber btn-lg">Register Now — It's Free</a>
-                <a routerLink="/about" class="btn btn-secondary btn-lg"
-                    style="border-color: rgba(255,255,255,0.3); color: white;">Learn More</a>
-            </div>
         </div>
     </div>
 </section>

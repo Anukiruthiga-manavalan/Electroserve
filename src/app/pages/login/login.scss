@@ -106,6 +106,125 @@
     }
 }
 
+/* ---- Label Row with Forgot Password ---- */
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+
+    label {
+        margin-bottom: 0 !important;
+    }
+}
+
+.forgot-pwd {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+
+    &:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+    }
+}
+
+/* ---- Forgot Password Modal ---- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 440px;
+    box-shadow: var(--shadow-xl);
+    animation: scaleIn 0.25s ease;
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--gray-200);
+
+    h3 {
+        font-size: 1.15rem;
+        margin: 0;
+    }
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-500);
+    transition: all var(--transition-fast);
+
+    &:hover {
+        background: var(--gray-100);
+        color: var(--gray-800);
+    }
+}
+
+.modal-body {
+    padding: 24px;
+
+    p {
+        color: var(--gray-500);
+        font-size: 0.92rem;
+        line-height: 1.6;
+    }
+}
+
+.reset-success {
+    text-align: center;
+    padding: 32px 24px;
+
+    h4 {
+        margin-bottom: 8px;
+        color: var(--primary-900);
+    }
+
+    p {
+        margin-bottom: 4px;
+    }
+}
+
+.success-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .material-icons-round {
+        font-size: 2rem;
+        color: var(--white);
+    }
+}
+
+/* ---- Form Extras ---- */
 .form-extras {
     display: flex;
     justify-content: space-between;
@@ -133,6 +252,7 @@
     font-weight: 600;
 }
 
+/* ---- Social Login ---- */
 .social-divider {
     text-align: center;
     margin: 24px 0;
@@ -175,18 +295,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 12px;
+    gap: 10px;
+    padding: 12px 16px;
     border: 2px solid var(--gray-200);
     border-radius: var(--radius-md);
     font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--gray-600);
+    font-size: 0.88rem;
+    color: var(--gray-700);
     transition: all var(--transition-fast);
+    cursor: pointer;
+    background: var(--white);
+
+    svg {
+        flex-shrink: 0;
+    }
 
     &:hover {
-        border-color: var(--accent);
-        color: var(--accent);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+}
+
+.google-btn {
+    &:hover {
+        border-color: #ea4335;
+        background: #fef2f2;
+    }
+}
+
+.facebook-btn {
+    &:hover {
+        border-color: #1877f2;
+        background: #eff6ff;
     }
 }
 
@@ -200,6 +340,7 @@
     }
 }
 
+/* ---- Responsive ---- */
 @media (max-width: 768px) {
     .auth-page {
         grid-template-columns: 1fr;
@@ -211,5 +352,13 @@
 
     .auth-right {
         padding: 40px 24px;
+    }
+
+    .social-buttons {
+        flex-direction: column;
+    }
+
+    .modal-content {
+        margin: 0 16px;
     }
 }

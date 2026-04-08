@@ -54,6 +54,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'plumber-register',
+        loadComponent: () => import('./pages/plumber-register/plumber-register').then(m => m.PlumberRegister),
+        canActivate: [authGuard]
+    },
+    {
         path: 'login',
         loadComponent: () => import('./pages/login/login').then(m => m.Login)
     },
@@ -71,11 +76,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/fault-diagnosis/fault-diagnosis').then(m => m.FaultDiagnosis),
         canActivate: [authGuard]
     },
-    {
-        path: 'contact',
-        loadComponent: () => import('./pages/contact/contact').then(m => m.Contact),
-        canActivate: [authGuard]
-    },
+
     {
         path: '**',
         redirectTo: ''
